@@ -49,3 +49,7 @@ jobs:
       - name: Build docker-compose
         run: |
           docker-compose build
+
+      - name: Build docker-compose up
+        run: |
+          docker-compose up
