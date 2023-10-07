@@ -15,7 +15,7 @@ jobs:
 
       - name: Init DB
         run: |
-          docker run -d --name postgres --env-file .env -p 5432:5432 postgres:latest
+          docker run -d --name postgres --env-file .env -p 5433:5433 postgres:latest
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -50,6 +50,6 @@ jobs:
         run: |
           docker-compose build
 
-      - name: Build docker-compose up
+      - name: Run docker-compose
         run: |
           docker-compose up
