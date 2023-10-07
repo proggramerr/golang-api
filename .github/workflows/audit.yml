@@ -45,3 +45,15 @@ jobs:
 
       - name: Run tests
         run: go test -v ./tests/unit
+
+  docker-compose:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build docker-compose
+        run: docker-compose build
+
+      - name: Build docker-compose
+        run: docker-compose up
+
