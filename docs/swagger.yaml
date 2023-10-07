@@ -1,0 +1,87 @@
+definitions:
+  album.Album:
+    properties:
+      artist:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  album.CreateAlbumInput:
+    properties:
+      artist:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    required:
+    - artist
+    - price
+    - title
+    type: object
+info:
+  contact: {}
+paths:
+  /albums:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет альбом по указанному ID
+      parameters:
+      - description: ID альбома для удаления
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            type: integer
+      summary: Удалить альбом по ID
+      tags:
+      - Albums
+    get:
+      consumes:
+      - application/json
+      description: Получить список всех альбомов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/album.Album'
+            type: array
+      summary: Получить список альбомов
+      tags:
+      - Albums
+    post:
+      consumes:
+      - application/json
+      description: Создать новый альбом
+      parameters:
+      - description: Данные альбома
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/album.CreateAlbumInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/album.Album'
+      summary: Создать альбом
+      tags:
+      - Albums
+swagger: "2.0"
