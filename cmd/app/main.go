@@ -1,7 +1,7 @@
 package main
 
 import (
-	"rest_api/app/web"
+	"rest_api/internal/app/web"
 )
 
 func main() {

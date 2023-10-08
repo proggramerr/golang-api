@@ -2,7 +2,7 @@ package album
 
 import (
 	"gorm.io/gorm"
-	"rest_api/app"
+	"rest_api/pkg/client/postgres"
 )
 
 func NewAlbumRepository(db *gorm.DB) *AlbumRepository {
@@ -23,7 +23,7 @@ type AlbumRepository struct {
 }
 
 func init() {
-	db, err := app.GetDBEngine()
+	db, err := postgres.GetPostgresEngine()
 	if err != nil {
 		panic(err)
 	}

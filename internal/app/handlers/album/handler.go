@@ -3,7 +3,8 @@ package album
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"rest_api/app"
+	"rest_api/internal/app/domain/album"
+	"rest_api/pkg/client/postgres"
 	"strconv"
 )
 
@@ -15,11 +16,11 @@ import (
 // @Success 200 {array} Album
 // @Router /albums [get]
 func getAlbums(c *gin.Context) {
-	db, err := app.GetDBEngine()
+	db, err := postgres.GetPostgresEngine()
 	if err != nil {
 		panic(err)
 	}
-	repo := NewAlbumRepository(db)
+	repo := album.NewAlbumRepository(db)
 	albums, err := repo.GetAlbums()
 	if err != nil {
 		panic(err)
@@ -46,12 +47,12 @@ func createAlbums(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "price cannot be less than or equal to 0"})
 		return
 	}
-	db, err := app.GetDBEngine()
+	db, err := postgres.GetPostgresEngine()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "error while get db engine"})
 		return
 	}
-	repo := NewAlbumRepository(db)
+	repo := album.NewAlbumRepository(db)
 	newAlbum, err := repo.CreateAlbum(input.Title, input.Artist, *input.Price)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "error while create new album"})
@@ -75,11 +76,11 @@ func deleteAlbums(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
 		return
 	}
-	db, err := app.GetDBEngine()
+	db, err := postgres.GetPostgresEngine()
 	if err != nil {
 		panic(err)
 	}
-	repo := NewAlbumRepository(db)
+	repo := album.NewAlbumRepository(db)
 	count, err := repo.DeleteAlbum(uint(id))
 	if err != nil {
 		panic(err)
