@@ -3,6 +3,7 @@ package album
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	albumrepo "rest_api/internal/app/adapters/db/gorm/repo"
 	"rest_api/internal/app/domain/album"
 	"rest_api/pkg/client/postgres"
 	"strconv"
@@ -20,8 +21,8 @@ func getAlbums(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
-	repo := album.NewAlbumRepository(db)
-	albums, err := repo.GetAlbums()
+	service := album.NewAlbumService(albumrepo.NewAlbumRepository(db))
+	albums, err := service.GetAlbums()
 	if err != nil {
 		panic(err)
 	}
@@ -52,8 +53,8 @@ func createAlbums(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "error while get db engine"})
 		return
 	}
-	repo := album.NewAlbumRepository(db)
-	newAlbum, err := repo.CreateAlbum(input.Title, input.Artist, *input.Price)
+	service := album.NewAlbumService(albumrepo.NewAlbumRepository(db))
+	newAlbum, err := service.CreateAlbum(input.Title, input.Artist, *input.Price)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "error while create new album"})
 		return
@@ -80,8 +81,8 @@ func deleteAlbums(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
-	repo := album.NewAlbumRepository(db)
-	count, err := repo.DeleteAlbum(uint(id))
+	service := album.NewAlbumService(albumrepo.NewAlbumRepository(db))
+	count, err := service.DeleteAlbum(uint(id))
 	if err != nil {
 		panic(err)
 	}

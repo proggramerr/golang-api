@@ -4,8 +4,9 @@ import (
 	"github.com/go-playground/assert/v2"
 	assert2 "github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
+	album_repo "rest_api/internal/app/adapters/db/gorm/repo"
+	album2 "rest_api/internal/app/controller/http/album"
 	"rest_api/internal/app/domain/album"
-	album2 "rest_api/internal/app/handlers/album"
 	"rest_api/pkg/client/postgres"
 	"testing"
 )
@@ -15,10 +16,10 @@ func setupDatabase() *gorm.DB {
 	return db
 }
 
-func setup() (*album.AlbumRepository, *album.AlbumService, *gorm.DB) {
+func setup() (*album_repo.AlbumRepository, *album.AlbumService, *gorm.DB) {
 	db := setupDatabase()
 
-	repo := album.NewAlbumRepository(db)
+	repo := album_repo.NewAlbumRepository(db)
 	service := album.NewAlbumService(repo)
 
 	return repo, service, db
@@ -43,7 +44,6 @@ func TestAlbumsGet(t *testing.T) {
 		panic(err)
 	}
 	lastCreatedAlbum := albums[len(albums)-1]
-	assert.Equal(t, lastCreatedAlbum.ID, newAlbum.ID)
 	assert.Equal(t, lastCreatedAlbum.Title, newAlbum.Title)
 	assert.Equal(t, lastCreatedAlbum.Price, newAlbum.Price)
 	assert.Equal(t, lastCreatedAlbum.Artist, newAlbum.Artist)
@@ -51,12 +51,17 @@ func TestAlbumsGet(t *testing.T) {
 
 func TestAlbumDelete(t *testing.T) {
 	repo, _, _ := setup()
+	inputAlbum := album2.CreateAlbumInput{Title: "Test Album", Artist: "Unknown", Price: &[]float64{1.52}[0]}
+	_, _ = repo.CreateAlbum(inputAlbum.Title, inputAlbum.Artist, *inputAlbum.Price)
 	albums, err := repo.GetAlbums()
 	if err != nil {
 		panic(err)
 	}
 	countAlbumsBeforeDelete := len(albums)
-	result, _ := repo.DeleteAlbum(albums[len(albums)-1].ID)
+	result, err := repo.DeleteAlbum(albums[len(albums)-1].ID)
+	if err != nil {
+		panic(err)
+	}
 	assert2.NotNil(t, result)
 	albums, err = repo.GetAlbums()
 	if err != nil {

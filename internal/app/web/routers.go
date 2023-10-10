@@ -5,7 +5,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"rest_api/api/docs"
-	albumHandlers "rest_api/internal/app/handlers/album"
+	albumHandlers "rest_api/internal/app/controller/http/album"
 )
 
 func InitRouters(engine *gin.Engine) {

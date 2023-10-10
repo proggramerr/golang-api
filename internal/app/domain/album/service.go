@@ -1,5 +1,12 @@
 package album
 
+type AlbumRepositoryImpl interface {
+	Migrate() error
+	CreateAlbum(title, artist string, price float64) (Album, error)
+	GetAlbums() ([]Album, error)
+	DeleteAlbum(pk uint) (int64, error)
+}
+
 type AlbumService struct {
 	repository AlbumRepositoryImpl
 }
