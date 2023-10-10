@@ -5,7 +5,7 @@ DOCKER_COMPOSE_FILE = build/docker-compose.yaml
 down-compose:
 	docker-compose -f $(DOCKER_COMPOSE_FILE) down -v
 
-build-compose:
+build:
 	docker-compose -f $(DOCKER_COMPOSE_FILE) build
 
 run:
