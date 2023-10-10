@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_FILE = ./build/docker-compose.yaml
+DOCKER_COMPOSE_FILE = build/docker-compose.yaml
 
 .SILENT:
 
