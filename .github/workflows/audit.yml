@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build docker-compose
-        run: make build
+        run: make build-compose
 
       - name: Run docker-compose
         run: make run
