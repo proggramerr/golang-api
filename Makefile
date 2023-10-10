@@ -9,7 +9,7 @@ build:
 	docker-compose -f $(DOCKER_COMPOSE_FILE) build
 
 run:
-	docker-compose -f $(DOCKER_COMPOSE_FILE) up
+	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d
 
 
 unit-tests:

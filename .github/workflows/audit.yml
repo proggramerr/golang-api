@@ -51,9 +51,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: list
-        run: ls
-
       - name: Build docker-compose
         run: make build
 
