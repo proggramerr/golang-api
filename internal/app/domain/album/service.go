@@ -1,6 +1,6 @@
 package album
 
-type AlbumRepositoryImpl interface {
+type AlbumRepository interface {
 	Migrate() error
 	CreateAlbum(title, artist string, price float64) (Album, error)
 	GetAlbums() ([]Album, error)
@@ -8,10 +8,10 @@ type AlbumRepositoryImpl interface {
 }
 
 type AlbumService struct {
-	repository AlbumRepositoryImpl
+	repository AlbumRepository
 }
 
-func NewAlbumService(repository AlbumRepositoryImpl) *AlbumService {
+func NewAlbumService(repository AlbumRepository) *AlbumService {
 	return &AlbumService{repository: repository}
 }
 

@@ -6,17 +6,15 @@ import (
 	"strconv"
 )
 
-type PostgreSQLConfig struct {
-	PostgreHost     string
-	PostgrePort     int
-	PostgreUser     string
-	PostgrePassword string
-	PostgreDbName   string
+type MongoConfig struct {
+	MongoDomain   string
+	MongoUser     string
+	MongoPassword string
 }
 
 type Config struct {
-	PostgreSQL PostgreSQLConfig
-	DebugMode  bool
+	MongoDB   MongoConfig
+	DebugMode bool
 }
 
 func New() *Config {
@@ -25,14 +23,12 @@ func New() *Config {
 		return nil
 	}
 	return &Config{
-		PostgreSQL: PostgreSQLConfig{
-			PostgreHost:     getEnv("POSTGRES_HOST", ""),
-			PostgrePort:     getEnvAsInt("POSTGRES_PORT", 5432),
-			PostgreUser:     getEnv("POSTGRES_USER", ""),
-			PostgrePassword: getEnv("POSTGRES_PASSWORD", ""),
-			PostgreDbName:   getEnv("POSTGRES_DB", ""),
+		MongoDB: MongoConfig{
+			MongoDomain:   getEnv("MONGO_DOMAIN", ""),
+			MongoUser:     getEnv("MONGO_USER", ""),
+			MongoPassword: getEnv("MONGO_PASSWORD", ""),
 		},
-		DebugMode: getEnvAsBool("debug", true),
+		DebugMode: getEnvAsBool("DEBUG", true),
 	}
 }
 
